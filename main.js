@@ -5,6 +5,7 @@
  */
 
 const { Rectangle, Color } = require("scenegraph");
+const assets = require("assets");
 const { alert } = require("./lib/dialogs.js");
 
 async function showAlert(title, message) {
@@ -35,11 +36,14 @@ async function convertTextWithHex2Rectangle(selection) {
     .map((line) => line.toLowerCase().match(/#[\da-f]{3,6}/g)[0])
     .map((color, index) => {
       const newElement = new Rectangle();
+      const colorAsset = new Color(color);
       newElement.width = 50;
       newElement.height = 50;
-      newElement.fill = new Color(color);
+      newElement.fill = colorAsset;
       selection.insertionParent.addChild(newElement);
       newElement.moveInParentCoordinates(index * 50, 0);
+
+      assets.colors.add(colorAsset);
     });
 }
 
